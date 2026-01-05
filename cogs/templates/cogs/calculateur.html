@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculateur COGS</title>
+    <style>
+        table { border-collapse: collapse; width: 60%; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Calculateur COGS</h1>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>%</th>
+            <th>Kg</th>
+            <th>Prix/kg</th>
+            <th>Coût total</th>
+        </tr>
+        {% for i in ingredients %}
+        <tr>
+            <td>{{ i.nom }}</td>
+            <td>{{ i.pourcentage|floatformat:2 }}</td>
+            <td>{{ i.kg|floatformat:2 }}</td>
+            <td>{{ i.prix_par_kg|floatformat:2 }}</td>
+            <td>{{ i.cout_total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Coûts supplémentaires</h2>
+    <ul>
+        {% for c in couts_supp %}
+            <li>{{ c.nom }} : {{ c.montant|floatformat:2 }} $</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Totaux</h2>
+    <p>Total matières : {{ total_matieres|floatformat:2 }} $</p>
+    <p>COGS total : {{ cogs_total|floatformat:2 }} $</p>
+    <p>Quantité totale : {{ quantite_totale|floatformat:2 }} kg</p>
+    <p>Coût par kg : {{ cout_par_kg|floatformat:2 }} $/kg</p>
+</body>
+</html>

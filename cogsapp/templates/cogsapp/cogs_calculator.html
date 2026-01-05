@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculateur COGS</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        button { margin-top: 10px; padding: 8px 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<h1>Calculateur COGS</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Nom de la formule :</label><br>
+    <input type="text" name="formule_name" required><br><br>
+
+    <label>Quantité totale (kg) :</label><br>
+    <input type="number" step="0.01" name="total_kg" required><br><br>
+
+    <h3>Ingrédients</h3>
+
+    <table id="ingredients-table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>%</th>
+                <th>Prix/kg</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button type="button" onclick="addIngredient()">+ Ajouter un ingrédient</button>
+
+    <hr>
+
+    <h3>Coûts supplémentaires</h3>
+
+    Main d’œuvre ($) : <input type="number" name="main_oeuvre" step="0.01" value="0"><br><br>
+    Énergie ($) : <input type="number" name="energie" step="0.01" value="0"><br><br>
+    Emballage ($) : <input type="number" name="emballage" step="0.01" value="0"><br><br>
+    Overhead ($) : <input type="number" name="overhead" step="0.01" value="0"><br><br>
+
+    <hr>
+
+    <h3>Données production</h3>
+
+    Kg envoyés : <input type="number" name="kg_envoyes" step="0.01" value="0"><br><br>
+    Kg retournés : <input type="number" name="kg_retournes" step="0.01" value="0"><br><br>
+
+    <button type="submit">Calculer</button>
+</form>
+
+{% if results %}
+<hr>
+<h2>Résultats</h2>
+
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>%</th>
+        <th>Kg</th>
+        <th>Prix/kg</th>
+        <th>Coût total</th>
+    </tr>
+
+    {% for ing in results.ingredients %}
+    <tr>
+        <td>{{ ing.name }}</td>
+        <td>{{ ing.percent }}</td>
+        <td>{{ ing.kg }}</td>
+        <td>{{ ing.price }}</td>
+        <td>{{ ing.cost }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<h3>Coûts supplémentaires</h3>
+<p>Main d’œuvre : {{ results.couts.main_oeuvre }} $</p>
+<p>Énergie : {{ results.couts.energie }} $</p>
+<p>Emballage : {{ results.couts.emballage }} $</p>
+<p>Overhead : {{ results.couts.overhead }} $</p>
+
+<h3>Totaux</h3>
+<p>Total matières : {{ results.total_matieres }} $</p>
+<p>COGS total : {{ results.cogs_total }} $</p>
+<p>Coût par kg : {{ results.cout_par_kg }} $/kg</p>
+
+<br>
+
+<a href="{% url 'export_production_excel' results.production_id %}">
+    <button>📤 Exporter Excel</button>
+</a>
+
+<a href="{% url 'export_production_pdf' results.production_id %}">
+    <button>📄 Exporter PDF</button>
+</a>
+
+{% endif %}
+
+<script>
+function addIngredient() {
+    const table = document.getElementById("ingredients-table").querySelector("tbody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td><input type="text" name="ingredient_name" required></td>
+        <td><input type="number" step="0.01" name="ingredient_percent" required></td>
+        <td><input type="number" step="0.01" name="ingredient_price" required></td>
+    `;
+    table.appendChild(row);
+}
+</script>
+
+</body>
+</html>

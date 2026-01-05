@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Liste des dossiers</h2>
+<a href="{% url 'create' %}">Ajouter un dossier</a>
+<ul>
+    {% for dossier in dossiers %}
+        <li>
+            {{ dossier.nom }} - {{ dossier.description }}
+            [<a href="{% url 'update' dossier.id %}">Modifier</a>]
+            [<a href="{% url 'delete' dossier.id %}">Supprimer</a>]
+        </li>
+    {% empty %}
+        <li>Aucun dossier</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,33 @@
+<h2>[translate:Calcul COGS et Profit]</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label>[translate:Quantité totale (kg) :] </label>
+    <input type="number" step="0.01" name="total_kg" value="{{ production.total_kg }}"><br>
+
+    <label>[translate:Quantité envoyée (kg) :] </label>
+    <input type="number" step="0.01" name="quantity_sent" value="{{ production.quantity_sent }}"><br>
+
+    <label>[translate:Quantité retournée (kg) :] </label>
+    <input type="number" step="0.01" name="quantity_returned" value="{{ production.quantity_returned }}"><br>
+
+    <label>[translate:Prix de vente par kg :] </label>
+    <input type="number" step="0.01" name="sale_price_per_kg" value="{{ production.sale_price_per_kg }}"><br><br>
+
+    <h3>[translate:Coûts supplémentaires]</h3>
+
+    <label>[translate:Main d'œuvre :] </label>
+    <input type="number" step="0.01" name="labor_cost" value="{{ production.labor_cost }}"><br>
+
+    <label>[translate:Énergie :] </label>
+    <input type="number" step="0.01" name="energy_cost" value="{{ production.energy_cost }}"><br>
+
+    <label>[translate:Emballage :] </label>
+    <input type="number" step="0.01" name="packaging_cost" value="{{ production.packaging_cost }}"><br>
+
+    <label>[translate:Overhead :] </label>
+    <input type="number" step="0.01" name="overhead_cost" value="{{ production.overhead_cost }}"><br><br>
+
+    <button type="submit">[translate:Calculer]</button>
+</form>

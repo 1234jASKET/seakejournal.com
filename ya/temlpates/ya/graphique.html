@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Graphique des coûts</title>
+</head>
+<body>
+    <h1>Graphique des coûts par ingrédient</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <img src="{% static image_path %}" alt="Graphique des coûts">
+    {% endif %}
+
+    <br><br>
+    <a href="{% url 'couts' %}">Retour au formulaire</a>
+</body>
+</html>

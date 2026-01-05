@@ -1,0 +1,49 @@
+<h1>Nouvelle formule</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table border="1" cellpadding="6">
+        <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix/kg</th>
+        </tr>
+
+        {% for i in "12345" %}
+        <tr>
+            <td><input type="text" name="nom"></td>
+            <td><input type="text" name="quantite"></td>
+            <td><input type="text" name="prix_unitaire"></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <button type="submit">Calculer</button>
+</form>
+
+<hr>
+
+<h2>Formule actuelle</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Nom</th>
+        <th>Kg</th>
+        <th>Prix/kg</th>
+        <th>Total</th>
+    </tr>
+
+    {% for c in couts %}
+    <tr>
+        <td>{{ c.nom }}</td>
+        <td>{{ c.quantite }}</td>
+        <td>{{ c.prix_unitaire }}</td>
+        <td>{{ c.total }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">Aucune formule</td>
+    </tr>
+    {% endfor %}
+</table>
